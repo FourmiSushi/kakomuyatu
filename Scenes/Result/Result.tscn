@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Scenes/Result/Result.gd" type="Script" id=1]
+[ext_resource path="res://Resources/851H-kktt_004.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scenes/Square/SquareLarge.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/CaptureArea/CaptureArea.tscn" type="PackedScene" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 1.0
+glow_bloom = 0.1
+glow_blend_mode = 0
+
+[node name="Result" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -110.0
+margin_top = 38.0
+margin_right = 110.0
+margin_bottom = 41.0
+custom_fonts/font = SubResource( 1 )
+text = "Score: 0000"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Retry" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -128.0
+margin_top = 85.0
+margin_right = 128.0
+margin_bottom = 33.0
+custom_fonts/font = SubResource( 2 )
+text = "もういちどやる？"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Square" parent="." instance=ExtResource( 3 )]
+position = Vector2( 320, 160 )
+gravity_scale = 0.0
+
+[node name="CaptureArea" parent="." instance=ExtResource( 4 )]
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Background" type="Polygon2D" parent="."]
+z_index = -10
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( -145, -190, -145, 529, 810, 526, 817, -189 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
+
+[connection signal="captured" from="CaptureArea" to="." method="_on_CaptureArea_captured"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
